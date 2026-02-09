@@ -1,89 +1,129 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>App de Receitas</title>
+  <meta charset="UTF-8" />
+  <title>Receitas Disponíveis</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f7f7f7;
+      background: #f2f2f2;
+      margin: 0;
       padding: 20px;
     }
-    .login, .app {
-      max-width: 600px;
-      margin: auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
     }
-    .app { display: none; }
-    input, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-    }
+
     .receita {
-      margin-top: 20px;
-      padding: 15px;
-      border: 1px solid #ddd;
-      border-radius: 6px;
+      background: #ffffff;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .receita h2 {
+      margin-top: 0;
+      color: #222;
+    }
+
+    .label {
+      font-weight: bold;
+      margin-top: 12px;
+    }
+
+    .texto {
+      margin-top: 4px;
+      color: #444;
+      white-space: pre-wrap;
     }
   </style>
 </head>
+
 <body>
 
-<div class="login">
-  <h2>Acesso ao App de Receitas</h2>
-  <input type="password" id="senha" placeholder="Digite a senha">
-  <button onclick="login()">Entrar</button>
-  <p id="erro" style="color:red;"></p>
-</div>
+  <h1>Receitas Disponíveis</h1>
 
-<div class="app">
-  <h2>Receitas Disponíveis</h2>
-  <div id="lista"></div>
-</div>
+  <div id="lista-receitas"></div>
 
-<script>
-const SENHA_CORRETA = "1950*";
-const SHEET_ID = "1q-B4wKUJtpmjh3MoXae9xR0HVg9EYvsF2QD3guVm_Os";
-const SHEET_NAME = "Sheet1";
+  <script>
+    const API_URL = "1q-B4wKUJtpmjh3MoXae9xR0HVg9EYvsF2QD3guVm_Os";
 
-function login() {
-  const senha = document.getElementById("senha").value;
-  if (senha === SENHA_CORRETA) {
-    document.querySelector(".login").style.display = "none";
-    document.querySelector(".app").style.display = "block";
-    carregarReceitas();
-  } else {
-    document.getElementById("erro").innerText = "Senha incorreta";
-  }
-}
+    fetch(API_URL)
+      .then(response => response.json())
+      .then(data => {
+        const container = document.getElementById("lista-receitas");
 
-function carregarReceitas() {
-  const url = `https://opensheet.elk.sh/${SHEET_ID}/${SHEET_NAME}`;
+        data.forEach(item => {
+          const nome =
+            item.nome_receita ||
+            item["Nome da Receita"] ||
+            item["nome da receita"] ||
+            item.nome ||
+            "Receita sem nome";
 
-  fetch(url)
-    .then(res => res.json())
-    .then(dados => {
-      const lista = document.getElementById("lista");
-      lista.innerHTML = "";
+          const ingredientes =
+            item.ingredientes ||
+            item["Ingredientes"] ||
+            "-";
 
-      dados.forEach(r => {
-        lista.innerHTML += `
-          <div class="receita">
-            <h3>${r.Nome}</h3>
-            <strong>Ingredientes:</strong>
-            <p>${r.Ingredientes}</p>
-            <strong>Modo de Preparo:</strong>
-            <p>${r.Modo_de_Preparo}</p>
-          </div>
-        `;
+          const modo =
+            item.modo_preparo ||
+            item["Modo de Preparo"] ||
+            item["modo de preparo"] ||
+            "-";
+
+          const tempo =
+            item.tempo_preparo ||
+            item["Tempo de Preparo"] ||
+            "-";
+
+          const rendimento =
+            item.rendimento ||
+            item["Rendimento"] ||
+            "-";
+
+          const observacoes =
+            item.observacoes ||
+            item["Observações"] ||
+            item["observacoes"] ||
+            "-";
+
+          const div = document.createElement("div");
+          div.className = "receita";
+
+          div.innerHTML = `
+            <h2>${nome}</h2>
+
+            <div class="label">Ingredientes:</div>
+            <div class="texto">${ingredientes}</div>
+
+            <div class="label">Modo de Preparo:</div>
+            <div class="texto">${modo}</div>
+
+            <div class="label">Tempo de Preparo:</div>
+            <div class="texto">${tempo}</div>
+
+            <div class="label">Rendimento:</div>
+            <div class="texto">${rendimento}</div>
+
+            <div class="label">Observações:</div>
+            <div class="texto">${observacoes}</div>
+          `;
+
+          container.appendChild(div);
+        });
+      })
+      .catch(error => {
+        document.getElementById("lista-receitas").innerHTML =
+          "<p>Erro ao carregar receitas.</p>";
+        console.error(error);
       });
-    });
-}
-</script>
+  </script>
 
 </body>
 </html>
