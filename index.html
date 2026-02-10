@@ -1,86 +1,92 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>App de Receitas</title>
+<meta charset="UTF-8" />
+<title>365 Bolos Sem Glúten, Sem Açúcar e Sem Leite</title>
 
 <style>
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #f2f2f2;
+  background: #f4f4f4;
 }
 
 header {
-  background: #ff6b00;
+  background: #ff7a00;
   color: #fff;
-  padding: 15px;
+  padding: 20px;
   text-align: center;
-  font-size: 20px;
+  font-size: 22px;
+  font-weight: bold;
 }
 
-/* LOGIN */
+.sub {
+  font-size: 14px;
+  font-weight: normal;
+  margin-top: 5px;
+}
+
 #login {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.login-box {
+  max-width: 320px;
+  margin: 80px auto;
   background: #fff;
   padding: 25px;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 320px;
-  box-shadow: 0 4px 12px rgba(0,0,0,.15);
+  border-radius: 8px;
+  text-align: center;
 }
 
-.login-box input, .login-box button {
+#login input {
   width: 100%;
   padding: 10px;
   margin-top: 10px;
-  font-size: 16px;
 }
 
-/* GRID */
-#app { display: none; }
+#login button {
+  width: 100%;
+  padding: 10px;
+  background: #ff7a00;
+  color: #fff;
+  border: none;
+  margin-top: 15px;
+  cursor: pointer;
+}
 
-.container {
-  padding: 15px;
+#app {
+  display: none;
+  padding: 30px;
+}
+
+.grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
 }
 
 .card {
   background: #fff;
-  border-radius: 12px;
+  border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0,0,0,.1);
   cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 .card img {
   width: 100%;
-  height: 130px;
+  height: 180px;
   object-fit: cover;
 }
 
 .card h3 {
-  padding: 10px;
-  font-size: 14px;
-  text-align: center;
+  padding: 15px;
+  margin: 0;
+  font-size: 16px;
 }
 
-/* MODAL */
 .modal {
   position: fixed;
   top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,.6);
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
   display: none;
   justify-content: center;
   align-items: center;
@@ -88,93 +94,140 @@ header {
 
 .modal-content {
   background: #fff;
-  width: 90%;
   max-width: 500px;
-  border-radius: 12px;
-  padding: 15px;
-  max-height: 90vh;
+  width: 90%;
+  max-height: 90%;
   overflow-y: auto;
+  border-radius: 10px;
+  padding: 20px;
 }
 
 .modal-content img {
   width: 100%;
-  border-radius: 10px;
+  border-radius: 8px;
 }
 
 .close {
   text-align: right;
-  font-size: 20px;
   cursor: pointer;
+  font-weight: bold;
+}
+.info {
+  margin-top: 10px;
+  font-size: 14px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
+<header>
+🍰 365 Bolos Sem Glúten, Sem Açúcar e Sem Leite
+<div class="sub">1 bolo por dia, o ano inteiro — sem culpa</div>
+</header>
+
 <div id="login">
-  <div class="login-box">
-    <h2>🔒 Acesso</h2>
-    <input type="password" id="senha" placeholder="Senha">
-    <button onclick="verificarSenha()">Entrar</button>
+<h3>Acesso ao App</h3>
+<input type="password" id="senha" placeholder="Digite a senha" />
+<button onclick="entrar()">Entrar</button>
+</div>
+
+<div id="app">
+<div class="grid" id="grid"></div>
+</div>
+
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <div class="close" onclick="fechar()">X</div>
+    <img id="mImg">
+    <h2 id="mTitulo"></h2>
+    <div class="info"><b>⏱ Tempo:</b> <span id="mTempo"></span></div>
+    <div class="info"><b>🔥 Calorias:</b> <span id="mCalorias"></span></div>
+    <h4>🧾 Ingredientes</h4>
+    <div id="mIngredientes"></div>
+    <h4>👩‍🍳 Modo de preparo</h4>
+    <div id="mPreparo"></div>
   </div>
 </div>
 
-<!-- APP -->
-<div id="app">
-  <header>🍰 App de Receitas</header>
-  <div class="container" id="receitas"></div>
-</div>
-
-<!-- MODAL -->
-<div class="modal" id="modal">
-  <div class="modal-content" id="modalContent"></div>
-</div>
-
 <script>
-const SENHA_CORRETA = "1234";
-const SHEET_ID = "1q-B4wKUJtpmjh3MoXae9xR0HVg9EYvsF2QD3guVm_Os";
-const URL = `https://opensheet.elk.sh/${SHEET_ID}/Sheet1`;
+/* ========= CONFIGURAÇÕES ========= */
 
-function verificarSenha() {
-  if (senha.value === SENHA_CORRETA) {
-    login.style.display = "none";
-    app.style.display = "block";
+// 🔑 SENHA DO APP
+const SENHA_CORRETA = "1950*";
+
+// 📄 ID DA SUA PLANILHA GOOGLE
+const SHEET_ID = "COLE_AQUI_O_ID_DA_SUA_PLANILHA";
+
+// 🔗 NÃO MEXA NISSO
+const SHEET_URL =
+`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
+
+/* ========= LOGIN ========= */
+
+function entrar() {
+  const s = document.getElementById("senha").value;
+  if (s === SENHA_CORRETA) {
+    document.getElementById("login").style.display = "none";
+    document.getElementById("app").style.display = "block";
     carregar();
   } else {
     alert("Senha incorreta");
   }
 }
 
+/* ========= CARREGAR RECEITAS ========= */
+
 function carregar() {
-  fetch(URL)
-    .then(r => r.json())
-    .then(dados => {
-      receitas.innerHTML = "";
-      dados.forEach(r => {
+  fetch(SHEET_URL)
+    .then(r => r.text())
+    .then(t => {
+      const json = JSON.parse(t.substring(47).slice(0, -2));
+      const rows = json.table.rows;
+      const grid = document.getElementById("grid");
+
+      rows.forEach(r => {
+        const nome = r.c[0]?.v || "";
+        const imagem = r.c[1]?.v || "";
+        const tempo = r.c[2]?.v || "";
+        const calorias = r.c[3]?.v || "";
+        const ingredientes = r.c[4]?.v || "";
+        const preparo = r.c[5]?.v || "";
+
         const card = document.createElement("div");
         card.className = "card";
         card.innerHTML = `
-          <img src="${r.imagem}">
-          <h3>${r.nome_receita}</h3>
+          <img src="${imagem}">
+          <h3>${nome}</h3>
         `;
-        card.onclick = () => abrirModal(r);
-        receitas.appendChild(card);
+        card.onclick = () => abrir(
+          nome, imagem, tempo, calorias, ingredientes, preparo
+        );
+        grid.appendChild(card);
       });
     });
 }
 
-function abrirModal(r) {
-  modalContent.innerHTML = `
-    <div class="close" onclick="modal.style.display='none'">✖</div>
-    <h2>${r.nome_receita}</h2>
-    <img src="${r.imagem}">
-    <p><b>⏱ Tempo:</b> ${r.tempo}</p>
-    <p><b>🔥 Calorias:</b> ${r.calorias}</p>
-    <p><b>🧾 Ingredientes:</b><br>${r.ingredientes}</p>
-    <p><b>👩‍🍳 Modo de preparo:</b><br>${r.modo_preparo}</p>
-  `;
-  modal.style.display = "flex";
+/* ========= MODAL ========= */
+
+function abrir(n,i,t,c,ing,p) {
+  document.getElementById("mImg").src = i;
+  document.getElementById("mTitulo").innerText = n;
+  document.getElementById("mTempo").innerText = t;
+  document.getElementById("mCalorias").innerText = c;
+  document.getElementById("mIngredientes").innerHTML = formatar(ing);
+  document.getElementById("mPreparo").innerHTML = formatar(p);
+  document.getElementById("modal").style.display = "flex";
+}
+
+function fechar() {
+  document.getElementById("modal").style.display = "none";
+}
+
+/* ========= FORMATA TEXTO ========= */
+
+function formatar(txt) {
+  return txt.replace(/\n/g, "<br>");
 }
 </script>
 
