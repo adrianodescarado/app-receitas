@@ -2,172 +2,179 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8" />
-<title>365 Bolos Sem Glúten, Sem Açúcar e Sem Leite</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>365 Bolos Sem Glúten</title>
 
 <style>
+* {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
   background: #f4f4f4;
 }
 
-header {
-  background: #ff7a00;
-  color: #fff;
-  padding: 20px;
-  text-align: center;
-  font-size: 22px;
-  font-weight: bold;
-}
-
-.sub {
-  font-size: 14px;
-  font-weight: normal;
-  margin-top: 5px;
-}
-
+/* ===== LOGIN ===== */
 #login {
-  max-width: 320px;
-  margin: 80px auto;
-  background: #fff;
-  padding: 25px;
-  border-radius: 8px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.login-box {
+  background: white;
+  padding: 30px;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 12px;
   text-align: center;
 }
 
-#login input {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
+.login-box h2 {
+  margin-bottom: 20px;
 }
 
-#login button {
+.login-box input {
   width: 100%;
-  padding: 10px;
-  background: #ff7a00;
-  color: #fff;
+  padding: 14px;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.login-box button {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  background: orange;
+  color: white;
   border: none;
-  margin-top: 15px;
+  border-radius: 6px;
   cursor: pointer;
 }
 
+/* ===== APP ===== */
 #app {
   display: none;
-  padding: 30px;
 }
 
+header {
+  background: orange;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+header p {
+  margin: 5px 0 0;
+  font-size: 14px;
+}
+
+/* ===== GRID ===== */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  padding: 16px;
 }
 
 .card {
-  background: #fff;
-  border-radius: 10px;
+  background: white;
+  border-radius: 12px;
   overflow: hidden;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0,0,0,.1);
 }
 
 .card img {
   width: 100%;
-  height: 180px;
+  height: 160px;
   object-fit: cover;
 }
 
 .card h3 {
-  padding: 15px;
-  margin: 0;
+  padding: 12px;
   font-size: 16px;
+  text-align: center;
 }
 
+/* ===== MODAL ===== */
 .modal {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.6);
   display: none;
-  justify-content: center;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
   align-items: center;
+  justify-content: center;
+  padding: 16px;
 }
 
 .modal-content {
-  background: #fff;
+  background: white;
+  width: 100%;
   max-width: 500px;
-  width: 90%;
-  max-height: 90%;
-  overflow-y: auto;
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 20px;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .modal-content img {
   width: 100%;
-  border-radius: 8px;
+  border-radius: 10px;
+  margin-bottom: 10px;
 }
 
 .close {
-  text-align: right;
+  float: right;
+  font-size: 22px;
   cursor: pointer;
-  font-weight: bold;
-}
-.info {
-  margin-top: 10px;
-  font-size: 14px;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-🍰 365 Bolos Sem Glúten, Sem Açúcar e Sem Leite
-<div class="sub">1 bolo por dia, o ano inteiro — sem culpa</div>
-</header>
-
+<!-- LOGIN -->
 <div id="login">
-<h3>Acesso ao App</h3>
-<input type="password" id="senha" placeholder="Digite a senha" />
-<button onclick="entrar()">Entrar</button>
-</div>
-
-<div id="app">
-<div class="grid" id="grid"></div>
-</div>
-
-<div class="modal" id="modal">
-  <div class="modal-content">
-    <div class="close" onclick="fechar()">X</div>
-    <img id="mImg">
-    <h2 id="mTitulo"></h2>
-    <div class="info"><b>⏱ Tempo:</b> <span id="mTempo"></span></div>
-    <div class="info"><b>🔥 Calorias:</b> <span id="mCalorias"></span></div>
-    <h4>🧾 Ingredientes</h4>
-    <div id="mIngredientes"></div>
-    <h4>👩‍🍳 Modo de preparo</h4>
-    <div id="mPreparo"></div>
+  <div class="login-box">
+    <h2>🔒 Acesso</h2>
+    <input type="password" id="senha" placeholder="Digite a senha" />
+    <button onclick="entrar()">Entrar</button>
   </div>
 </div>
 
+<!-- APP -->
+<div id="app">
+  <header>
+    <h1>🍰 365 Bolos Sem Glúten, Sem Açúcar e Sem Leite</h1>
+    <p>1 bolo por dia, o ano inteiro — sem culpa</p>
+  </header>
+
+  <div class="grid" id="lista"></div>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-content" id="modalContent"></div>
+</div>
+
 <script>
-/* ========= CONFIGURAÇÕES ========= */
+const senhaCorreta = "1950*";
 
-// 🔑 SENHA DO APP
-const SENHA_CORRETA = "1950*";
-
-// 📄 ID DA SUA PLANILHA GOOGLE
-const SHEET_ID = "1q-B4wKUJtpmjh3MoXae9xR0HVg9EYvsF2QD3guVm_Os";
-
-// 🔗 NÃO MEXA NISSO
-const SHEET_URL =
-`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
-
-/* ========= LOGIN ========= */
+/* 🔽 TROQUE SOMENTE SEU ID AQUI 🔽 */
+const sheetURL = "https://docs.google.com/spreadsheets/d/1q-B4wKUJtpmjh3MoXae9xR0HVg9EYvsF2QD3guVm_Os/gviz/tq?tqx=out:json";
 
 function entrar() {
-  const s = document.getElementById("senha").value;
-  if (s === SENHA_CORRETA) {
+  if (document.getElementById("senha").value === senhaCorreta) {
     document.getElementById("login").style.display = "none";
     document.getElementById("app").style.display = "block";
     carregar();
@@ -176,58 +183,49 @@ function entrar() {
   }
 }
 
-/* ========= CARREGAR RECEITAS ========= */
-
 function carregar() {
-  fetch(SHEET_URL)
-    .then(r => r.text())
-    .then(t => {
-      const json = JSON.parse(t.substring(47).slice(0, -2));
+  fetch(sheetURL)
+    .then(res => res.text())
+    .then(text => {
+      const json = JSON.parse(text.substring(47).slice(0, -2));
       const rows = json.table.rows;
-      const grid = document.getElementById("grid");
 
-      rows.forEach(r => {
-        const nome = r.c[0]?.v || "";
-        const imagem = r.c[1]?.v || "";
-        const tempo = r.c[2]?.v || "";
-        const calorias = r.c[3]?.v || "";
-        const ingredientes = r.c[4]?.v || "";
-        const preparo = r.c[5]?.v || "";
+      const lista = document.getElementById("lista");
+      lista.innerHTML = "";
+
+      rows.slice(1).forEach(r => { // ⬅️ IGNORA CABEÇALHO
+        const nome = r.c[0]?.v;
+        const img = r.c[1]?.v;
+
+        if (!nome || !img) return;
 
         const card = document.createElement("div");
         card.className = "card";
         card.innerHTML = `
-          <img src="${imagem}">
+          <img src="${img}">
           <h3>${nome}</h3>
         `;
-        card.onclick = () => abrir(
-          nome, imagem, tempo, calorias, ingredientes, preparo
-        );
-        grid.appendChild(card);
+        card.onclick = () => abrir(r);
+        lista.appendChild(card);
       });
     });
 }
 
-/* ========= MODAL ========= */
-
-function abrir(n,i,t,c,ing,p) {
-  document.getElementById("mImg").src = i;
-  document.getElementById("mTitulo").innerText = n;
-  document.getElementById("mTempo").innerText = t;
-  document.getElementById("mCalorias").innerText = c;
-  document.getElementById("mIngredientes").innerHTML = formatar(ing);
-  document.getElementById("mPreparo").innerHTML = formatar(p);
+function abrir(r) {
   document.getElementById("modal").style.display = "flex";
+  document.getElementById("modalContent").innerHTML = `
+    <span class="close" onclick="fechar()">×</span>
+    <h2>${r.c[0].v}</h2>
+    <img src="${r.c[1].v}">
+    <p>⏱️ <b>Tempo:</b> ${r.c[2].v}</p>
+    <p>🔥 <b>Calorias:</b> ${r.c[3].v}</p>
+    <p>🧾 <b>Ingredientes:</b><br>${r.c[4].v}</p>
+    <p>👩‍🍳 <b>Modo de preparo:</b><br>${r.c[5].v}</p>
+  `;
 }
 
 function fechar() {
   document.getElementById("modal").style.display = "none";
-}
-
-/* ========= FORMATA TEXTO ========= */
-
-function formatar(txt) {
-  return txt.replace(/\n/g, "<br>");
 }
 </script>
 
