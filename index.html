@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>App-365 Bolos</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- PWA -->
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#ff9800">
 
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
+    * {
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
     }
 
-    #login {
+    body {
+      margin: 0;
       min-height: 100vh;
       background: linear-gradient(135deg, #ff9800, #ffb74d);
       display: flex;
@@ -24,105 +22,105 @@
       align-items: center;
     }
 
-    .login-box {
+    #login {
       background: #fff;
+      width: 100%;
+      max-width: 420px;
       padding: 30px;
       border-radius: 16px;
-      width: 90%;
-      max-width: 420px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
       text-align: center;
     }
 
-    .login-box h1 {
-      margin: 0 0 10px;
+    #login h1 {
       font-size: 28px;
+      margin-bottom: 10px;
     }
 
-    .login-box input {
+    #login input {
       width: 100%;
-      padding: 14px;
-      font-size: 16px;
-      margin-bottom: 15px;
+      padding: 16px;
+      font-size: 18px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      margin-bottom: 20px;
     }
 
-    .login-box button {
+    #login button {
       width: 100%;
-      padding: 14px;
-      font-size: 16px;
-      background: #ff9800;
+      padding: 16px;
+      font-size: 18px;
+      border-radius: 10px;
       border: none;
+      background: #ff9800;
       color: #fff;
-      cursor: pointer;
     }
 
     #app {
       display: none;
-      padding: 15px;
+      width: 100%;
+      min-height: 100vh;
+      background: #f5f5f5;
     }
 
     header {
-      text-align: center;
-      padding: 15px;
       background: #ff9800;
       color: #fff;
+      padding: 20px;
+      text-align: center;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
       gap: 15px;
-      margin-top: 15px;
+      padding: 20px;
     }
 
     .card {
       background: #fff;
-      border-radius: 10px;
+      border-radius: 12px;
       overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,.15);
       cursor: pointer;
     }
 
     .card img {
       width: 100%;
-      height: 120px;
+      height: 140px;
       object-fit: cover;
     }
 
     .card p {
-      padding: 8px;
-      text-align: center;
+      padding: 10px;
       font-weight: bold;
+      text-align: center;
     }
 
-    /* MODAL */
-    #modal {
+    .modal {
+      display: none;
       position: fixed;
       inset: 0;
       background: rgba(0,0,0,.6);
-      display: none;
       justify-content: center;
       align-items: center;
-      overflow-y: auto;
+      padding: 20px;
     }
 
-    .modal-box {
+    .modal-content {
       background: #fff;
-      width: 95%;
       max-width: 600px;
+      width: 100%;
       padding: 20px;
       border-radius: 12px;
-    }
-
-    .modal-box h2 {
-      margin-top: 0;
+      overflow-y: auto;
+      max-height: 90vh;
     }
 
     .close {
-      background: #ff9800;
-      color: #fff;
-      border: none;
-      padding: 10px;
-      width: 100%;
-      margin-top: 15px;
+      text-align: right;
+      font-size: 20px;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -130,30 +128,30 @@
 <body>
 
 <div id="login">
-  <div class="login-box">
-    <h1>🎂 App-365 Bolos</h1>
-    <p>Digite a senha</p>
-    <input type="password" id="senha">
-    <button onclick="entrar()">Entrar</button>
-  </div>
+  <h1>🎂 App-365 Bolos</h1>
+  <input type="password" id="senha" placeholder="Senha">
+  <button onclick="entrar()">Entrar</button>
 </div>
 
 <div id="app">
   <header>
-    <h2>365 Bolos Saudáveis</h2>
-    <p>Sem açúcar • Sem glúten • Sem leite</p>
+    <h2>365 Bolos Sem Açúcar, Sem Glúten e Sem Leite</h2>
+    <span>1 bolo por dia, o ano inteiro</span>
   </header>
 
-  <div class="grid" id="grid"></div>
+  <div class="grid" id="receitas"></div>
 </div>
 
-<div id="modal">
-  <div class="modal-box" id="modalContent"></div>
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <div class="close" onclick="fechar()">✖</div>
+    <div id="detalhes"></div>
+  </div>
 </div>
 
 <script>
 const SHEET_ID = "1q-B4wKUJtpmjh3MoXae9xR0HVg9EYvsF2QD3guVm_Os";
-const SHEET_NAME = "sheet1";
+const ABA = "sheet1";
 
 function entrar() {
   if (document.getElementById("senha").value === "1950*") {
@@ -166,18 +164,18 @@ function entrar() {
 }
 
 async function carregar() {
-  const url = `https://opensheet.elk.sh/${SHEET_ID}/${SHEET_NAME}`;
+  const url = `https://opensheet.elk.sh/${SHEET_ID}/${ABA}`;
   const res = await fetch(url);
   const dados = await res.json();
 
-  const grid = document.getElementById("grid");
+  const grid = document.getElementById("receitas");
   grid.innerHTML = "";
 
   dados.forEach(r => {
     const card = document.createElement("div");
     card.className = "card";
     card.innerHTML = `
-      <img src="https://picsum.photos/400/300?random=${Math.random()}">
+      <img src="${r.imagem}">
       <p>${r.nome}</p>
     `;
     card.onclick = () => abrir(r);
@@ -186,19 +184,17 @@ async function carregar() {
 }
 
 function abrir(r) {
-  document.getElementById("modalContent").innerHTML = `
+  document.getElementById("detalhes").innerHTML = `
     <h2>${r.nome}</h2>
-    <p><b>Identificação:</b> ${r.identificacao}</p>
+    <img src="${r.imagem}" style="width:100%;border-radius:10px;margin-bottom:10px">
     <p><b>Ingredientes:</b> ${r.ingredientes}</p>
+    <p><b>Modo de preparo:</b> ${r.modo_preparo}</p>
     <p><b>Tempo:</b> ${r.tempo}</p>
     <p><b>Temperatura:</b> ${r.temperatura}</p>
-    <p><b>Modo de Preparo:</b> ${r.modo_preparo}</p>
     <p><b>Técnicas:</b> ${r.tecnicas}</p>
     <p><b>Rendimento:</b> ${r.rendimento}</p>
     <p><b>Dificuldade:</b> ${r.dificuldade}</p>
-    <p><b>Categoria:</b> ${r.categoria}</p>
     <p><b>Observações:</b> ${r.observacoes}</p>
-    <button class="close" onclick="fechar()">Fechar</button>
   `;
   document.getElementById("modal").style.display = "flex";
 }
@@ -207,7 +203,6 @@ function fechar() {
   document.getElementById("modal").style.display = "none";
 }
 
-/* PWA */
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("sw.js");
 }
