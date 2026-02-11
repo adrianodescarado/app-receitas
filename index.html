@@ -1,109 +1,140 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>App-365 Bolos</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>App-365 Bolos</title>
 
-<style>
-*{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
-body{
-  margin:0;
-  min-height:100vh;
-  background:linear-gradient(180deg,#ff9800,#ffc266)
-}
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #ff9800, #ffcc80);
+      min-height: 100vh;
+    }
 
-/* LOGIN */
-#login{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center
-}
-.login-box{
-  background:#fff;
-  padding:30px;
-  max-width:420px;
-  width:100%;
-  border-radius:16px;
-  text-align:center;
-  box-shadow:0 10px 30px rgba(0,0,0,.25)
-}
-.login-box h1{margin:0;color:#ff9800}
-.login-box p{color:#555}
-.login-box input,
-.login-box button{
-  width:100%;
-  padding:16px;
-  margin-top:15px;
-  font-size:18px;
-  border-radius:10px
-}
-.login-box input{border:1px solid #ccc}
-.login-box button{
-  border:none;
-  background:#ff9800;
-  color:#fff;
-  cursor:pointer
-}
+    /* LOGIN */
+    #login {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-/* APP */
-#app{display:none}
-header{
-  background:#ff9800;
-  color:#fff;
-  padding:20px;
-  text-align:center
-}
-#lista{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-  gap:20px;
-  padding:20px
-}
-.card{
-  background:#fff;
-  border-radius:14px;
-  overflow:hidden;
-  box-shadow:0 4px 15px rgba(0,0,0,.2);
-  cursor:pointer
-}
-.card img{
-  width:100%;
-  height:180px;
-  object-fit:cover
-}
-.card h3{margin:12px}
+    .login-box {
+      background: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
 
-/* MODAL */
-#modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.6);
-  align-items:center;
-  justify-content:center;
-  padding:20px
-}
-.modal-box{
-  background:#fff;
-  padding:20px;
-  border-radius:14px;
-  max-width:600px;
-  width:100%
-}
-.modal-box button{
-  width:100%;
-  padding:14px;
-  margin-top:20px;
-  border:none;
-  background:#ff9800;
-  color:#fff;
-  border-radius:8px;
-  font-size:16px
-}
-</style>
+    .login-box h1 {
+      margin-bottom: 10px;
+      color: #ff9800;
+      font-size: 28px;
+    }
+
+    .login-box p {
+      color: #555;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 16px;
+      font-size: 18px;
+      margin: 20px 0;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 16px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      background: #ff9800;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    /* APP */
+    #app {
+      display: none;
+    }
+
+    header {
+      background: #ff9800;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 16px;
+      padding: 20px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 14px;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .card img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+    }
+
+    .card h3 {
+      padding: 10px;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    /* MODAL */
+    #modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .modal-box {
+      background: #fff;
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      border-radius: 16px;
+    }
+
+    .modal-box img {
+      width: 100%;
+      border-radius: 12px;
+      margin-bottom: 15px;
+    }
+
+    .close {
+      text-align: right;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
 
 <body>
@@ -113,7 +144,7 @@ header{
   <div class="login-box">
     <h1>🎂 App-365 Bolos</h1>
     <p>Digite a senha para acessar</p>
-    <input type="password" id="senha" placeholder="Senha">
+    <input type="password" id="senha" placeholder="Senha" />
     <button onclick="entrar()">Entrar</button>
   </div>
 </div>
@@ -124,70 +155,69 @@ header{
     <h2>365 Bolos Sem Glúten, Sem Açúcar e Sem Leite</h2>
     <span>1 bolo por dia, o ano inteiro — sem culpa</span>
   </header>
-  <div id="lista"></div>
+
+  <div class="grid" id="grid"></div>
 </div>
 
 <!-- MODAL -->
 <div id="modal">
-  <div class="modal-box">
-    <h2 id="mtitulo"></h2>
-    <p id="ming"></p>
-    <p id="mmodo"></p>
-    <button onclick="fechar()">Fechar</button>
-  </div>
+  <div class="modal-box" id="modalContent"></div>
 </div>
 
 <script>
-const SENHA="1950*"
+  const SENHA_CORRETA = "1950*";
+  const SHEET_ID = "1q-B4wKUJtpmjh3MoXae9xR0HVg9EYvsF2QD3guVm_Os";
+  const ABA = "sheet1";
 
-/* COLE O ID DO SEU SHEET AQUI */
-const SHEET_ID="1q-B4wKUJtpmjh3MoXae9xR0HVg9EYvsF2QD3guVm_Os"
-const ABA="sheet1"
-const URL=`https://opensheet.elk.sh/${SHEET_ID}/${ABA}`
-
-function entrar(){
-  if(document.getElementById("senha").value===SENHA){
-    login.style.display="none"
-    app.style.display="block"
-    carregar()
-  }else alert("Senha incorreta")
-}
-
-function pegar(obj,...nomes){
-  for(const n of nomes){
-    if(obj[n]) return obj[n]
+  function entrar() {
+    const senha = document.getElementById("senha").value;
+    if (senha === SENHA_CORRETA) {
+      document.getElementById("login").style.display = "none";
+      document.getElementById("app").style.display = "block";
+      carregarReceitas();
+    } else {
+      alert("Senha incorreta");
+    }
   }
-  return ""
-}
 
-function carregar(){
-  fetch(URL)
-  .then(r=>r.json())
-  .then(dados=>{
-    lista.innerHTML=""
-    dados.forEach((r,i)=>{
-      const nome=pegar(r,"nome","Nome","Receita","Nome da Receita")
-      const ing=pegar(r,"ingredientes","Ingredientes")
-      const modo=pegar(r,"modo","Modo","Modo de Preparo","Modo preparo")
+  async function carregarReceitas() {
+    const url = `https://opensheet.elk.sh/${SHEET_ID}/${ABA}`;
+    const res = await fetch(url);
+    const dados = await res.json();
 
-      const img=`https://picsum.photos/seed/${encodeURIComponent(nome||i)}/400/300`
+    const grid = document.getElementById("grid");
+    grid.innerHTML = "";
 
-      lista.innerHTML+=`
-      <div class="card" onclick="abrir('${nome}','${ing}','${modo}')">
-        <img src="${img}">
-        <h3>${nome}</h3>
-      </div>`
-    })
-  })
-}
+    dados.forEach(r => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <img src="${r.imagem}">
+        <h3>${r.nome}</h3>
+      `;
+      card.onclick = () => abrirModal(r);
+      grid.appendChild(card);
+    });
+  }
 
-function abrir(t,i,m){
-  mtitulo.innerText=t
-  ming.innerText="Ingredientes:\n"+i
-  mmodo.innerText="Modo de preparo:\n"+m
-  modal.style.display="flex"
-}
-function fechar(){modal.style.display="none"}
+  function abrirModal(r) {
+    document.getElementById("modal").style.display = "block";
+    document.getElementById("modalContent").innerHTML = `
+      <div class="close" onclick="fecharModal()">✖ Fechar</div>
+      <img src="${r.imagem}">
+      <h2>${r.nome}</h2>
+      <p><b>Ingredientes:</b><br>${r.ingredientes}</p>
+      <p><b>Tempo:</b> ${r.tempo}</p>
+      <p><b>Temperatura:</b> ${r.temperatura}</p>
+      <p><b>Modo de preparo:</b><br>${r.modo_preparo}</p>
+      <p><b>Técnicas:</b> ${r.tecnicas}</p>
+      <p><b>Observações:</b> ${r.observacoes}</p>
+    `;
+  }
+
+  function fecharModal() {
+    document.getElementById("modal").style.display = "none";
+  }
 </script>
 
 </body>
