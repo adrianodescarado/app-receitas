@@ -1,160 +1,170 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>App-365 Bolos</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>App-365 Bolos</title>
 
-  <link rel="manifest" href="manifest.json">
+<style>
+* {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
 
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: Arial, Helvetica, sans-serif;
-    }
+body {
+  margin: 0;
+  background: #f2f2f2;
+}
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: linear-gradient(135deg, #ff9800, #ffb74d);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+/* LOGIN */
+#login {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  padding: 20px;
+  text-align: center;
+}
 
-    #login {
-      background: #fff;
-      width: 100%;
-      max-width: 420px;
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      text-align: center;
-    }
+#login .bolo {
+  font-size: 80px;
+  margin-bottom: 10px;
+}
 
-    #login h1 {
-      font-size: 28px;
-      margin-bottom: 10px;
-    }
+#login h1 {
+  margin: 10px 0;
+}
 
-    #login input {
-      width: 100%;
-      padding: 16px;
-      font-size: 18px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      margin-bottom: 20px;
-    }
+#login input {
+  width: 100%;
+  max-width: 300px;
+  padding: 15px;
+  font-size: 18px;
+  margin-top: 10px;
+}
 
-    #login button {
-      width: 100%;
-      padding: 16px;
-      font-size: 18px;
-      border-radius: 10px;
-      border: none;
-      background: #ff9800;
-      color: #fff;
-    }
+#login button {
+  margin-top: 15px;
+  padding: 15px;
+  font-size: 18px;
+  width: 100%;
+  max-width: 300px;
+  cursor: pointer;
+}
 
-    #app {
-      display: none;
-      width: 100%;
-      min-height: 100vh;
-      background: #f5f5f5;
-    }
+/* APP */
+#app {
+  display: none;
+}
 
-    header {
-      background: #ff9800;
-      color: #fff;
-      padding: 20px;
-      text-align: center;
-    }
+header {
+  padding: 15px;
+  background: #fff;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 15px;
-      padding: 20px;
-    }
+header h2 {
+  margin: 5px 0;
+}
 
-    .card {
-      background: #fff;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 10px rgba(0,0,0,.15);
-      cursor: pointer;
-    }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+  padding: 12px;
+}
 
-    .card img {
-      width: 100%;
-      height: 140px;
-      object-fit: cover;
-    }
+.card {
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid #ddd;
+}
 
-    .card p {
-      padding: 10px;
-      font-weight: bold;
-      text-align: center;
-    }
+.card img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+}
 
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.6);
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
+.card .nome {
+  padding: 8px;
+  font-weight: bold;
+  text-align: center;
+}
 
-    .modal-content {
-      background: #fff;
-      max-width: 600px;
-      width: 100%;
-      padding: 20px;
-      border-radius: 12px;
-      overflow-y: auto;
-      max-height: 90vh;
-    }
+/* MODAL */
+#modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  overflow-y: auto;
+}
 
-    .close {
-      text-align: right;
-      font-size: 20px;
-      cursor: pointer;
-    }
-  </style>
+#modal .conteudo {
+  background: #fff;
+  margin: 30px auto;
+  padding: 20px;
+  max-width: 600px;
+  border-radius: 10px;
+}
+
+#modal img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+#modal h3 {
+  margin-top: 15px;
+}
+
+#modal button {
+  margin-top: 15px;
+  padding: 12px;
+  width: 100%;
+  font-size: 16px;
+  cursor: pointer;
+}
+</style>
 </head>
 
 <body>
 
+<!-- LOGIN -->
 <div id="login">
-  <h1>🎂 App-365 Bolos</h1>
-  <input type="password" id="senha" placeholder="Senha">
+  <div class="bolo">🎂</div>
+  <h1>App-365 Bolos</h1>
+  <input type="password" id="senha" placeholder="Digite a senha">
   <button onclick="entrar()">Entrar</button>
 </div>
 
+<!-- APP -->
 <div id="app">
   <header>
-    <h2>365 Bolos Sem Açúcar, Sem Glúten e Sem Leite</h2>
-    <span>1 bolo por dia, o ano inteiro</span>
+    <h2>365 Bolos Sem Glúten, Sem Açúcar e Sem Leite</h2>
+    <p>1 bolo por dia, o ano inteiro — sem culpa</p>
   </header>
 
-  <div class="grid" id="receitas"></div>
+  <div class="grid" id="lista"></div>
 </div>
 
-<div class="modal" id="modal">
-  <div class="modal-content">
-    <div class="close" onclick="fechar()">✖</div>
-    <div id="detalhes"></div>
-  </div>
+<!-- MODAL -->
+<div id="modal">
+  <div class="conteudo" id="modalConteudo"></div>
 </div>
 
 <script>
 const SHEET_ID = "1q-B4wKUJtpmjh3MoXae9xR0HVg9EYvsF2QD3guVm_Os";
-const ABA = "sheet1";
+const SHEET_NAME = "sheet1";
 
 function entrar() {
-  if (document.getElementById("senha").value === "1950*") {
+  const s = document.getElementById("senha").value;
+  if (s === "1950*") {
     document.getElementById("login").style.display = "none";
     document.getElementById("app").style.display = "block";
     carregar();
@@ -164,47 +174,48 @@ function entrar() {
 }
 
 async function carregar() {
-  const url = `https://opensheet.elk.sh/${SHEET_ID}/${ABA}`;
+  const url = `https://opensheet.elk.sh/${SHEET_ID}/${SHEET_NAME}`;
   const res = await fetch(url);
   const dados = await res.json();
 
-  const grid = document.getElementById("receitas");
-  grid.innerHTML = "";
+  const lista = document.getElementById("lista");
+  lista.innerHTML = "";
 
   dados.forEach(r => {
     const card = document.createElement("div");
     card.className = "card";
     card.innerHTML = `
       <img src="${r.imagem}">
-      <p>${r.nome}</p>
+      <div class="nome">${r.nome}</div>
     `;
     card.onclick = () => abrir(r);
-    grid.appendChild(card);
+    lista.appendChild(card);
   });
 }
 
 function abrir(r) {
-  document.getElementById("detalhes").innerHTML = `
-    <h2>${r.nome}</h2>
-    <img src="${r.imagem}" style="width:100%;border-radius:10px;margin-bottom:10px">
-    <p><b>Ingredientes:</b> ${r.ingredientes}</p>
-    <p><b>Modo de preparo:</b> ${r.modo_preparo}</p>
-    <p><b>Tempo:</b> ${r.tempo}</p>
-    <p><b>Temperatura:</b> ${r.temperatura}</p>
-    <p><b>Técnicas:</b> ${r.tecnicas}</p>
-    <p><b>Rendimento:</b> ${r.rendimento}</p>
-    <p><b>Dificuldade:</b> ${r.dificuldade}</p>
-    <p><b>Observações:</b> ${r.observacoes}</p>
+  document.getElementById("modalConteudo").innerHTML = `
+    <img src="${r.imagem}">
+    <h3>${r.nome}</h3>
+
+    <p><strong>Identificação:</strong> ${r.identificacao}</p>
+    <p><strong>Ingredientes:</strong><br>${r.ingredientes}</p>
+    <p><strong>Tempo:</strong> ${r.tempo}</p>
+    <p><strong>Temperatura:</strong> ${r.temperatura}</p>
+    <p><strong>Modo de Preparo:</strong><br>${r.modo_preparo}</p>
+    <p><strong>Técnicas:</strong> ${r.tecnicas}</p>
+    <p><strong>Rendimento:</strong> ${r.rendimento}</p>
+    <p><strong>Dificuldade:</strong> ${r.dificuldade}</p>
+    <p><strong>Categoria:</strong> ${r.categoria}</p>
+    <p><strong>Observações:</strong> ${r.observacoes}</p>
+
+    <button onclick="fechar()">Fechar</button>
   `;
-  document.getElementById("modal").style.display = "flex";
+  document.getElementById("modal").style.display = "block";
 }
 
 function fechar() {
   document.getElementById("modal").style.display = "none";
-}
-
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("sw.js");
 }
 </script>
 
