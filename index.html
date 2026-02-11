@@ -1,199 +1,193 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>365 Bolos</title>
+  <meta charset="UTF-8">
+  <title>App-365 Bolos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: linear-gradient(180deg, #ff9800, #ffcc80);
-}
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#ff9800">
 
-/* LOGIN */
-#login {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+    }
 
-.login-box {
-  background: #fff;
-  padding: 30px;
-  border-radius: 16px;
-  width: 320px;
-  text-align: center;
-}
+    #login {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #ff9800, #ffb74d);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-.bolo-grande {
-  font-size: 72px;
-  margin-bottom: 10px;
-}
+    .login-box {
+      background: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 420px;
+      text-align: center;
+    }
 
-.login-box h1 {
-  margin: 10px 0;
-}
+    .login-box h1 {
+      margin: 0 0 10px;
+      font-size: 28px;
+    }
 
-.login-box input {
-  width: 100%;
-  padding: 14px;
-  margin: 15px 0;
-  font-size: 16px;
-}
+    .login-box input {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
 
-.login-box button {
-  width: 100%;
-  padding: 14px;
-  font-size: 16px;
-  background: #ff9800;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
+    .login-box button {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      background: #ff9800;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+    }
 
-/* APP */
-#app {
-  display: none;
-}
+    #app {
+      display: none;
+      padding: 15px;
+    }
 
-header {
-  background: #ff9800;
-  color: #fff;
-  padding: 20px;
-  text-align: center;
-}
+    header {
+      text-align: center;
+      padding: 15px;
+      background: #ff9800;
+      color: #fff;
+    }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 16px;
-  padding: 20px;
-}
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
 
-.card {
-  background: #fff;
-  border-radius: 14px;
-  padding: 20px;
-  text-align: center;
-  cursor: pointer;
-}
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+    }
 
-.emoji {
-  font-size: 48px;
-}
+    .card img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+    }
 
-/* MODAL – compatível Android */
-.modal {
-  display: none;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  min-height: 100vh;
-  background: rgba(0,0,0,0.7);
-  z-index: 9999;
-  padding: 20px;
-}
+    .card p {
+      padding: 8px;
+      text-align: center;
+      font-weight: bold;
+    }
 
-.modal-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  max-width: 600px;
-  margin: 20px auto;
-}
+    /* MODAL */
+    #modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      overflow-y: auto;
+    }
 
-.close {
-  font-size: 20px;
-  cursor: pointer;
-  float: right;
-}
-</style>
+    .modal-box {
+      background: #fff;
+      width: 95%;
+      max-width: 600px;
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    .modal-box h2 {
+      margin-top: 0;
+    }
+
+    .close {
+      background: #ff9800;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      margin-top: 15px;
+    }
+  </style>
 </head>
 
 <body>
 
 <div id="login">
   <div class="login-box">
-    <div class="bolo-grande">🎂</div>
-    <h1>App-365 Bolos</h1>
-    <input type="password" id="senha" placeholder="Digite a senha">
+    <h1>🎂 App-365 Bolos</h1>
+    <p>Digite a senha</p>
+    <input type="password" id="senha">
     <button onclick="entrar()">Entrar</button>
   </div>
 </div>
 
 <div id="app">
   <header>
-    <h2>365 Bolos Sem Glúten, Sem Açúcar e Sem Leite</h2>
-    <p>1 bolo por dia, o ano inteiro — sem culpa</p>
+    <h2>365 Bolos Saudáveis</h2>
+    <p>Sem açúcar • Sem glúten • Sem leite</p>
   </header>
 
-  <div class="grid" id="lista"></div>
+  <div class="grid" id="grid"></div>
 </div>
 
-<div class="modal" id="modal">
-  <div class="modal-content" id="modalContent"></div>
+<div id="modal">
+  <div class="modal-box" id="modalContent"></div>
 </div>
 
 <script>
 const SHEET_ID = "1q-B4wKUJtpmjh3MoXae9xR0HVg9EYvsF2QD3guVm_Os";
-const ABA = "sheet1";
-const URL = `https://opensheet.elk.sh/${SHEET_ID}/${ABA}`;
-
-let receitas = [];
+const SHEET_NAME = "sheet1";
 
 function entrar() {
-  if (document.getElementById("senha").value !== "1950*") {
+  if (document.getElementById("senha").value === "1950*") {
+    document.getElementById("login").style.display = "none";
+    document.getElementById("app").style.display = "block";
+    carregar();
+  } else {
     alert("Senha incorreta");
-    return;
   }
-
-  fetch(URL)
-    .then(r => r.json())
-    .then(d => {
-      receitas = d;
-      document.getElementById("login").style.display = "none";
-      document.getElementById("app").style.display = "block";
-      render();
-    });
 }
 
-function emoji(nome) {
-  nome = nome.toLowerCase();
-  if (nome.includes("chocolate")) return "🍫";
-  if (nome.includes("banana")) return "🍌";
-  if (nome.includes("cenoura")) return "🥕";
-  if (nome.includes("laranja")) return "🍊";
-  if (nome.includes("coco")) return "🥥";
-  return "🎂";
-}
+async function carregar() {
+  const url = `https://opensheet.elk.sh/${SHEET_ID}/${SHEET_NAME}`;
+  const res = await fetch(url);
+  const dados = await res.json();
 
-function render() {
-  const lista = document.getElementById("lista");
-  lista.innerHTML = "";
+  const grid = document.getElementById("grid");
+  grid.innerHTML = "";
 
-  receitas.forEach((r, i) => {
+  dados.forEach(r => {
     const card = document.createElement("div");
     card.className = "card";
     card.innerHTML = `
-      <div class="emoji">${emoji(r.nome)}</div>
-      <strong>${r.nome}</strong>
+      <img src="https://picsum.photos/400/300?random=${Math.random()}">
+      <p>${r.nome}</p>
     `;
-    card.onclick = () => abrir(i);
-    lista.appendChild(card);
+    card.onclick = () => abrir(r);
+    grid.appendChild(card);
   });
 }
 
-function abrir(i) {
-  const r = receitas[i];
-
+function abrir(r) {
   document.getElementById("modalContent").innerHTML = `
-    <span class="close" onclick="fechar()">✖</span>
-    <h2>${emoji(r.nome)} ${r.nome}</h2>
+    <h2>${r.nome}</h2>
     <p><b>Identificação:</b> ${r.identificacao}</p>
     <p><b>Ingredientes:</b> ${r.ingredientes}</p>
     <p><b>Tempo:</b> ${r.tempo}</p>
@@ -204,13 +198,18 @@ function abrir(i) {
     <p><b>Dificuldade:</b> ${r.dificuldade}</p>
     <p><b>Categoria:</b> ${r.categoria}</p>
     <p><b>Observações:</b> ${r.observacoes}</p>
+    <button class="close" onclick="fechar()">Fechar</button>
   `;
-
-  document.getElementById("modal").style.display = "block";
+  document.getElementById("modal").style.display = "flex";
 }
 
 function fechar() {
   document.getElementById("modal").style.display = "none";
+}
+
+/* PWA */
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js");
 }
 </script>
 
