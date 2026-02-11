@@ -1,1 +1,8 @@
-manifest.json
+{
+  "name": "App-365 Bolos",
+  "short_name": "365 Bolos",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ff9800",
+  "theme_color": "#ff9800"
+}
