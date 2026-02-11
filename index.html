@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>365 Bolos Sem Glúten</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>App-365 Bolos</title>
 
 <style>
 * {
@@ -13,130 +13,140 @@
 
 body {
   margin: 0;
-  background: #f4f4f4;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ff9800, #ffcc80);
 }
 
-/* ===== LOGIN ===== */
+/* LOGIN */
 #login {
   min-height: 100vh;
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: 20px;
+  align-items: center;
 }
 
 .login-box {
-  background: white;
-  padding: 30px;
+  background: #ffffff;
   width: 100%;
-  max-width: 400px;
-  border-radius: 12px;
+  max-width: 420px;
+  padding: 32px;
+  border-radius: 18px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.25);
   text-align: center;
 }
 
-.login-box h2 {
+.login-box h1 {
+  margin-bottom: 10px;
+  font-size: 28px;
+  color: #ff9800;
+}
+
+.login-box p {
+  color: #555;
   margin-bottom: 20px;
 }
 
 .login-box input {
   width: 100%;
-  padding: 14px;
-  font-size: 16px;
-  margin-bottom: 15px;
+  padding: 16px;
+  font-size: 18px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
 }
 
 .login-box button {
   width: 100%;
-  padding: 14px;
-  font-size: 16px;
-  background: orange;
-  color: white;
+  padding: 16px;
+  font-size: 18px;
   border: none;
-  border-radius: 6px;
+  border-radius: 10px;
+  background: #ff9800;
+  color: #fff;
   cursor: pointer;
 }
 
-/* ===== APP ===== */
+.login-box button:hover {
+  background: #fb8c00;
+}
+
+/* APP */
 #app {
   display: none;
 }
 
 header {
-  background: orange;
-  color: white;
+  background: #ff9800;
+  color: #fff;
   padding: 20px;
   text-align: center;
 }
 
-header h1 {
+header h2 {
   margin: 0;
-  font-size: 22px;
 }
 
-header p {
-  margin: 5px 0 0;
+header span {
   font-size: 14px;
+  opacity: 0.9;
 }
 
-/* ===== GRID ===== */
+/* GRID */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 16px;
   padding: 16px;
 }
 
 .card {
-  background: white;
-  border-radius: 12px;
+  background: #fff;
+  border-radius: 14px;
   overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0,0,0,.1);
 }
 
 .card img {
   width: 100%;
-  height: 160px;
+  height: 180px;
   object-fit: cover;
 }
 
 .card h3 {
   padding: 12px;
-  font-size: 16px;
-  text-align: center;
+  margin: 0;
+  font-size: 18px;
 }
 
-/* ===== MODAL ===== */
-.modal {
+/* DETALHE */
+#detalhe {
   display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.6);
-  align-items: center;
-  justify-content: center;
   padding: 16px;
 }
 
-.modal-content {
-  background: white;
+#detalhe img {
   width: 100%;
-  max-width: 500px;
-  border-radius: 12px;
-  padding: 20px;
-  max-height: 90vh;
-  overflow-y: auto;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 14px;
+  margin-bottom: 16px;
 }
 
-.modal-content img {
-  width: 100%;
-  border-radius: 10px;
-  margin-bottom: 10px;
-}
-
-.close {
-  float: right;
-  font-size: 22px;
+.voltar {
+  background: #ff9800;
+  color: #fff;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 8px;
+  margin-bottom: 16px;
   cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .login-box {
+    margin: 16px;
+  }
 }
 </style>
 </head>
@@ -146,8 +156,9 @@ header p {
 <!-- LOGIN -->
 <div id="login">
   <div class="login-box">
-    <h2>🔒 Acesso</h2>
-    <input type="password" id="senha" placeholder="Digite a senha" />
+    <h1>🎂 App-365 Bolos</h1>
+    <p>Digite a senha para acessar</p>
+    <input type="password" id="senha" placeholder="Senha">
     <button onclick="entrar()">Entrar</button>
   </div>
 </div>
@@ -155,26 +166,24 @@ header p {
 <!-- APP -->
 <div id="app">
   <header>
-    <h1>🍰 365 Bolos Sem Glúten, Sem Açúcar e Sem Leite</h1>
-    <p>1 bolo por dia, o ano inteiro — sem culpa</p>
+    <h2>365 Bolos Sem Glúten, Sem Açúcar e Sem Leite</h2>
+    <span>1 bolo por dia, o ano inteiro — sem culpa</span>
   </header>
 
   <div class="grid" id="lista"></div>
-</div>
 
-<!-- MODAL -->
-<div class="modal" id="modal">
-  <div class="modal-content" id="modalContent"></div>
+  <div id="detalhe">
+    <button class="voltar" onclick="voltar()">⬅ Voltar</button>
+    <img id="imgDetalhe">
+    <h2 id="tituloDetalhe"></h2>
+    <p id="conteudoDetalhe"></p>
+  </div>
 </div>
 
 <script>
-const senhaCorreta = "1950*";
-
-/* 🔽 TROQUE SOMENTE SEU ID AQUI 🔽 */
-const sheetURL = "https://docs.google.com/spreadsheets/d/1q-B4wKUJtpmjh3MoXae9xR0HVg9EYvsF2QD3guVm_Os/gviz/tq?tqx=out:json";
-
 function entrar() {
-  if (document.getElementById("senha").value === senhaCorreta) {
+  const senha = document.getElementById("senha").value;
+  if (senha === "1234") {
     document.getElementById("login").style.display = "none";
     document.getElementById("app").style.display = "block";
     carregar();
@@ -183,49 +192,48 @@ function entrar() {
   }
 }
 
-function carregar() {
-  fetch(sheetURL)
-    .then(res => res.text())
-    .then(text => {
-      const json = JSON.parse(text.substring(47).slice(0, -2));
-      const rows = json.table.rows;
+/* ====== CONFIGURAÇÃO DO SHEET ====== */
+const SHEET_ID = "1q-B4wKUJtpmjh3MoXae9xR0HVg9EYvsF2QD3guVm_Os";
+const ABA = "Página1";
 
+function carregar() {
+  fetch(`https://opensheet.elk.sh/${SHEET_ID}/${ABA}`)
+    .then(res => res.json())
+    .then(dados => {
       const lista = document.getElementById("lista");
       lista.innerHTML = "";
 
-      rows.slice(1).forEach(r => { // ⬅️ IGNORA CABEÇALHO
-        const nome = r.c[0]?.v;
-        const img = r.c[1]?.v;
+      dados.forEach((r, i) => {
+        if (!r.nome_receita) return;
 
-        if (!nome || !img) return;
+        const img = r.imagem && r.imagem.startsWith("http")
+          ? r.imagem
+          : `https://picsum.photos/seed/bolo${i}/600/400`;
 
         const card = document.createElement("div");
         card.className = "card";
         card.innerHTML = `
           <img src="${img}">
-          <h3>${nome}</h3>
+          <h3>${r.nome_receita}</h3>
         `;
-        card.onclick = () => abrir(r);
+        card.onclick = () => abrir(r, img);
         lista.appendChild(card);
       });
     });
 }
 
-function abrir(r) {
-  document.getElementById("modal").style.display = "flex";
-  document.getElementById("modalContent").innerHTML = `
-    <span class="close" onclick="fechar()">×</span>
-    <h2>${r.c[0].v}</h2>
-    <img src="${r.c[1].v}">
-    <p>⏱️ <b>Tempo:</b> ${r.c[2].v}</p>
-    <p>🔥 <b>Calorias:</b> ${r.c[3].v}</p>
-    <p>🧾 <b>Ingredientes:</b><br>${r.c[4].v}</p>
-    <p>👩‍🍳 <b>Modo de preparo:</b><br>${r.c[5].v}</p>
-  `;
+function abrir(r, img) {
+  document.getElementById("lista").style.display = "none";
+  document.getElementById("detalhe").style.display = "block";
+  document.getElementById("imgDetalhe").src = img;
+  document.getElementById("tituloDetalhe").innerText = r.nome_receita;
+  document.getElementById("conteudoDetalhe").innerText =
+    `🧾 Ingredientes:\n${r.ingredientes}\n\n👩‍🍳 Modo de preparo:\n${r.modo_preparo}\n\n⏱ Tempo: ${r.tempo}\n🔥 Calorias: ${r.calorias}`;
 }
 
-function fechar() {
-  document.getElementById("modal").style.display = "none";
+function voltar() {
+  document.getElementById("detalhe").style.display = "none";
+  document.getElementById("lista").style.display = "grid";
 }
 </script>
 
