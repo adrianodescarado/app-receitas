@@ -3,50 +3,51 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>365 Bolos Funcionais</title>
+<title>365 Bolos Sem Glúten</title>
 
 <style>
 body{
 font-family: Arial, sans-serif;
+background:#f5f5f5;
 margin:0;
-background:#f2f2f2;
 }
 
-.login{
-height:100vh;
+#login{
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-background:#f5f5f5;
+height:100vh;
+background:#eeeeee;
 }
 
-.login-emoji{
-font-size:120px;
+#login h1{
+font-size:28px;
+}
+
+#login .bolo-grande{
+font-size:100px;
 margin-bottom:20px;
 }
 
-input{
+#login input{
 padding:10px;
-border-radius:10px;
-border:1px solid #ccc;
-margin-bottom:10px;
+font-size:16px;
+margin:10px 0;
 }
 
-button{
-padding:10px 15px;
-border:none;
+#login button{
+padding:10px 20px;
 background:#ff7a00;
 color:white;
-border-radius:10px;
+border:none;
+border-radius:8px;
 cursor:pointer;
 }
 
-.app{
+#app{
 display:none;
 padding:20px;
-background:#fff8f0;
-min-height:100vh;
 }
 
 h1{
@@ -86,35 +87,33 @@ padding-left:20px;
 <body>
 
 <!-- LOGIN -->
-<div class="login" id="login">
-<div class="login-emoji">🍰</div>
-<h2>Digite a senha</h2>
-<input type="password" id="senha">
+<div id="login">
+<div class="bolo-grande">🎂</div>
+<h1>App-365 Bolos</h1>
+<input type="password" id="senha" placeholder="Digite a senha">
 <button onclick="entrar()">Entrar</button>
 </div>
 
 <!-- APP -->
-<div class="app" id="app">
-<h1>🍰 Receitas Sem Leite • Sem Glúten • Sem Açúcar</h1>
+<div id="app">
+<h1>🍰 365 Bolos Sem Glúten, Sem Açúcar e Sem Leite</h1>
 <div id="receitas"></div>
 </div>
 
 <script>
 
-const senhaCorreta = "1950*";
-const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSTF1_fDqiUJW1xlBwsMznwLbjZffyNVV0zuRJIEzIav_CsCj8nVuur1ap5iIl0UQyD1q5oOdG5JT3v/pub?gid=0&single=true&output=csv";
-
 function entrar(){
 const senha = document.getElementById("senha").value;
-
-if(senha === senhaCorreta){
-document.getElementById("login").style.display = "none";
-document.getElementById("app").style.display = "block";
-carregarReceitas();
+if(senha === "1950*"){
+document.getElementById("login").style.display="none";
+document.getElementById("app").style.display="block";
 }else{
 alert("Senha incorreta");
 }
 }
+
+/* COLE AQUI SUA URL CSV PUBLICADA */
+const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSTF1_fDqiUJW1xlBwsMznwLbjZffyNVV0zuRJIEzIav_CsCj8nVuur1ap5iIl0UQyD1q5oOdG5JT3v/pub?gid=0&single=true&output=csv";
 
 function pegarEmoji(sabor){
 
@@ -128,11 +127,11 @@ if(sabor.includes("limao")) return "🍋";
 if(sabor.includes("coco")) return "🥥";
 if(sabor.includes("morango")) return "🍓";
 if(sabor.includes("banana")) return "🍌";
+if(sabor.includes("maçã")) return "🍎";
+if(sabor.includes("maca")) return "🍎";
 
 return "🍰";
 }
-
-function carregarReceitas(){
 
 fetch(url)
 .then(res => res.text())
@@ -144,7 +143,7 @@ linhas.forEach(linha => {
 
 const col = linha.split(",");
 
-if(col.length < 18) return;
+if(col.length < 10) return;
 
 const nome = col[0];
 const sabor = col[1];
@@ -178,12 +177,12 @@ ${emoji}
 
 <h2>${nome}</h2>
 
-<p>📂 ${categoria}</p>
-<p>⏱ ${tempo}</p>
-<p>🍽 ${rendimento}</p>
-<p>⭐ ${dificuldade}</p>
-
 <div class="detalhes">
+
+<p>📂 Categoria: ${categoria}</p>
+<p>⏱ Tempo: ${tempo}</p>
+<p>🍽 Rendimento: ${rendimento}</p>
+<p>⭐ Dificuldade: ${dificuldade}</p>
 
 <h3>🔥 Informações Nutricionais</h3>
 <p>Calorias: ${calorias}</p>
@@ -223,7 +222,6 @@ document.getElementById("receitas").appendChild(div);
 });
 
 });
-}
 
 function toggle(element){
 const detalhes = element.parentElement.querySelector(".detalhes");
